@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RomanPrayerApplication</string>
+    <string name="title">Title</string>
+    <string name="thumbnail">Thumbnail</string>
+    <string name="network_something_wrong">Something went wrong</string>
+    <string name="network_error_message_time_out">Server is taking too long to respond. Please try again.</string>
+    <string name="network_error_message_502">Internal server error.</string>
+    <string name="network_error_message_403">Authentication error</string>
+    <string name="network_message_internet_connection">Check your internet connection and try again later.</string>
+    <string name="network_error_message_internet">Your Internet connection appears to be offline. Please try again.</string>
 </resources>
