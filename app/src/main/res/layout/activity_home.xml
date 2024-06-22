@@ -27,7 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -59,8 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:orientation="vertical"
             android:background="@drawable/ic_banner"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="@+id/tvLocation"
             app:layout_constraintTop_toBottomOf="@+id/tvLocation">
 
@@ -69,13 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                android:visibility="gone"/>
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/tvPrayerName"
@@ -179,19 +178,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/bg_prayer_time"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lyBanner">
-
+        
         <LinearLayout
             android:id="@+id/lyFirst"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="62dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -334,9 +336,11 @@
             android:id="@+id/lySecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="62dp"
             android:layout_marginBottom="20dp"
+            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
