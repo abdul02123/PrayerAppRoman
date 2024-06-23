@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="thumbBackgroundColor">#00A5CF</color> <!-- Blue background -->
+    <color name="thumbTrackColor">#FFFFFF</color> <!-- White track -->
+    <color name="thumbColorOn">#00A5CF</color> <!-- Blue thumb -->
+    <color name="thumbColorOff">#454545</color> <!-- Blue thumb -->
 </resources>

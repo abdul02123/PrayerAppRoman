@@ -1,5 +1,6 @@
 package com.roman.application.presentation.activity
 
+import android.content.Intent
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.roman.application.base.BaseCompatVBActivity
@@ -18,6 +19,11 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
     }
 
     override fun init() {
+
+        mBinding?.imgEdit?.setOnClickListener{
+            startActivity(Intent(this@HomeActivity, PrayerTimeActivity::class.java))
+        }
+
 //        bindObserver()
         showLocationDialogue()
     }
