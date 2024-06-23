@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityHomeBinding
+import com.roman.application.presentation.dialogues.LocationDialogue
 import com.roman.application.presentation.viewmodel.PhotoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +19,14 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     override fun init() {
 //        bindObserver()
+        showLocationDialogue()
+    }
+
+
+    private fun showLocationDialogue(){
+        LocationDialogue.getInstance(message = "", onClick = {
+
+        }).show(supportFragmentManager, null)
     }
 
     /*private fun bindObserver() {
