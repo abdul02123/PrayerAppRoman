@@ -5,6 +5,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 fun Context.showToast(message: String?){
@@ -33,4 +35,10 @@ fun Context.isInternetAvailable(): Boolean {
         }
     }
     return false
+
+}
+
+inline fun <reified T> String.toResponseModel(): T {
+    val typeToken = object : TypeToken<T>() {}.type
+    return Gson().fromJson(this, typeToken)
 }

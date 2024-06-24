@@ -25,6 +25,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
         }
 
 //        bindObserver()
+        viewModel.getCitiesData()
         showLocationDialogue()
     }
 

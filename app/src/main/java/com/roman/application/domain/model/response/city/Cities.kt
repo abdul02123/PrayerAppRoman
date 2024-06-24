@@ -1,0 +1,9 @@
+package com.roman.application.domain.model.response.city
+
+
+import com.google.gson.annotations.SerializedName
+
+data class Cities(
+    @SerializedName("cities")
+    val cities: ArrayList<City?>?
+)

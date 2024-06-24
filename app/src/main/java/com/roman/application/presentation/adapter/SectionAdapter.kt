@@ -1,8 +1,8 @@
 package com.roman.application.presentation.adapter
 
-import com.roman.application.domain.model.photo.response.PhotoResponse
+import com.roman.application.domain.model.response.city.Cities
 
-class SectionAdapter(private val data: Map<Int?, List<PhotoResponse>>?)/* :
+class SectionAdapter(private val data: Map<Int?, List<Cities>>?)/* :
     RecyclerView.Adapter<SectionAdapter.MySectionViewHolder>() {
 
 

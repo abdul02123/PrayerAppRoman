@@ -73,5 +73,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.49")
 
+    implementation ("org.bouncycastle:bcprov-jdk15on:1.68")
+
 
 }

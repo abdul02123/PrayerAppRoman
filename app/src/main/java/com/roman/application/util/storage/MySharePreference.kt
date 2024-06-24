@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.roman.application.base.BaseApplication
-import com.roman.application.domain.model.photo.response.PhotoResponse
+import com.roman.application.domain.model.response.city.Cities
 
 object MySharePreference {
 
@@ -14,7 +14,7 @@ object MySharePreference {
     private val editor: SharedPreferences.Editor = pref.edit()
 
 
-    fun saveData(data: ArrayList<PhotoResponse>) {
+    fun saveData(data: ArrayList<Cities>) {
         editor.putString(SAVE_DATA, Gson().toJson(data))
         editor.commit()
     }
