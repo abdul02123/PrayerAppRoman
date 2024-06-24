@@ -1,6 +1,6 @@
 package com.roman.application.di
 
-import com.roman.application.data.remote.PhotoApi
+import com.roman.application.home.data.remote.HomeApi
 import com.roman.application.network.DecryptionInterceptor
 import com.roman.application.util.Constant.BASE_URL
 import dagger.Module
@@ -37,7 +37,7 @@ class NetworkModule {
     }
 
     @Provides
-    fun providePhotoApi(retrofit: Retrofit): PhotoApi {
-        return retrofit.create(PhotoApi::class.java)
+    fun providePhotoApi(retrofit: Retrofit): HomeApi {
+        return retrofit.create(HomeApi::class.java)
     }
 }

@@ -1,12 +1,12 @@
-package com.roman.application.presentation.activity
+package com.roman.application.home.presentation.activity
 
 import android.content.Intent
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityHomeBinding
-import com.roman.application.presentation.dialogues.LocationDialogue
-import com.roman.application.presentation.viewmodel.PhotoViewModel
+import com.roman.application.home.presentation.dialogues.LocationDialogue
+import com.roman.application.home.presentation.viewmodel.PhotoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.roman.application.domain.model.response.city
+package com.roman.application.home.domain.model.response.city
 
 
 import com.google.gson.annotations.SerializedName

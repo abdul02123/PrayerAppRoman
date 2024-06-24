@@ -1,4 +1,4 @@
-package com.roman.application.presentation.activity
+package com.roman.application.home.presentation.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater

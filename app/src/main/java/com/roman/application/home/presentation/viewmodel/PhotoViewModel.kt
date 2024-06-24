@@ -1,11 +1,11 @@
-package com.roman.application.presentation.viewmodel
+package com.roman.application.home.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.roman.application.domain.model.response.city.Cities
-import com.roman.application.domain.usecase.GetPhotosUseCase
+import com.roman.application.home.domain.model.response.city.Cities
+import com.roman.application.home.domain.usecase.GetCitiesUseCase
 import com.roman.application.util.isInternetAvailable
 import com.roman.application.util.network.NetworkException
 import com.roman.application.util.network.NetworkResult
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PhotoViewModel @Inject constructor(
     private val application: Application,
-    private val photosUseCase: GetPhotosUseCase
+    private val photosUseCase: GetCitiesUseCase
 ) : AndroidViewModel(application) {
 
     var result = MutableLiveData<NetworkResult<Cities>>()

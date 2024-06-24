@@ -1,4 +1,4 @@
-package com.roman.application.presentation.dialogues
+package com.roman.application.home.presentation.dialogues
 
 import android.os.Bundle
 import android.view.Gravity

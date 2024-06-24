@@ -1,7 +1,7 @@
-package com.roman.application.presentation.adapter
+package com.roman.application.home.presentation.adapter
 
 
-import com.roman.application.domain.model.response.city.Cities
+import com.roman.application.home.domain.model.response.city.Cities
 
 class PhotosAdapter(private val photoList: List<Cities>?) /*:
     RecyclerView.Adapter<PhotosAdapter.MyViewHolder>() {

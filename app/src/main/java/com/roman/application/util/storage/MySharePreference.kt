@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.roman.application.base.BaseApplication
-import com.roman.application.domain.model.response.city.Cities
+import com.roman.application.home.domain.model.response.city.Cities
 
 object MySharePreference {
 
