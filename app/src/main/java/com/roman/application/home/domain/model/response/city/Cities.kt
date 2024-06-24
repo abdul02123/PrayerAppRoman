@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Cities(
     @SerializedName("cities")
-    val cities: ArrayList<City?>?
+    val cities: ArrayList<City>?
 )

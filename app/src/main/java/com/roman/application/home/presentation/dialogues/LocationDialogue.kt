@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.roman.application.databinding.LocationDialogueLayoutBinding
+import com.roman.application.home.domain.model.response.city.City
+import com.roman.application.util.SelectionType
 
 class LocationDialogue : DialogFragment() {
 
     private lateinit var binding: LocationDialogueLayoutBinding
-    private var onClick:(()->Unit)?= null
+    private var onClick: ((selectionType: Int,  city: City?) -> Unit)? = null
+    private var city: City?= null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,8 +33,13 @@ class LocationDialogue : DialogFragment() {
 //        binding.tvAddMessage.text = title
 //        binding.imgView.setImageResource(image?:0)
 
-        binding.tvDone.setOnClickListener{
+        binding.tvDone.setOnClickListener {
+            onClick?.invoke(SelectionType.DONE.indentifier, city)
             dismiss()
+        }
+
+        binding.tvSelectCity.setOnClickListener {
+            onClick?.invoke(SelectionType.CITY.indentifier, city)
         }
 
         dialog?.window?.let {
@@ -42,15 +50,23 @@ class LocationDialogue : DialogFragment() {
             it.setGravity(Gravity.CENTER)
             it.setBackgroundDrawableResource(android.R.color.transparent)
         }
-//        dialog?.setCancelable(false)
+        dialog?.setCancelable(false)
+    }
+
+    fun setLocationName(city: City) {
+        this.city = city
+        binding.tvSelectCity.text = city.nameEn
     }
 
 
-    companion object{
+    companion object {
 
         private const val MESSAGE = "MESSAGE"
 
-        fun getInstance(message: String?=null, onClick:(()->Unit)?): LocationDialogue {
+        fun getInstance(
+            message: String? = null,
+            onClick: ((selectionType: Int, city: City?) -> Unit)?
+        ): LocationDialogue {
             val dialogue = LocationDialogue()
             val bundle = Bundle()
             bundle.putSerializable(MESSAGE, message)
