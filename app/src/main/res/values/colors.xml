@@ -7,4 +7,5 @@
     <color name="thumbTrackColor">#FFFFFF</color> <!-- White track -->
     <color name="thumbColorOn">#00A5CF</color> <!-- Blue thumb -->
     <color name="thumbColorOff">#454545</color> <!-- Blue thumb -->
+    <color name="colorBg">#42A8C3</color> <!-- Blue thumb -->
 </resources>

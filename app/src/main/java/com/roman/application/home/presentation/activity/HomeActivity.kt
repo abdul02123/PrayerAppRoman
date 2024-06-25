@@ -6,19 +6,21 @@ import androidx.activity.viewModels
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityHomeBinding
 import com.roman.application.home.domain.model.response.city.City
+import com.roman.application.home.domain.model.response.prayer.CurrentPrayerDetail
 import com.roman.application.home.presentation.dialogues.BottomSheetDialogue
 import com.roman.application.home.presentation.dialogues.LocationDialogue
-import com.roman.application.home.presentation.viewmodel.PhotoViewModel
+import com.roman.application.home.presentation.viewmodel.homeViewModel
 import com.roman.application.util.SelectionType
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
-    private val viewModel: PhotoViewModel by viewModels()
+    private val viewModel: homeViewModel by viewModels()
     private var dialogueLocation: LocationDialogue? = null
 
     override fun setUpViewBinding(layoutInflater: LayoutInflater): ActivityHomeBinding {
@@ -42,9 +44,9 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                     SelectionType.CITY.indentifier -> {
                         showCitiesDialogue(citiesList)
                     }
-
                     SelectionType.DONE.indentifier -> {
-
+                        mBinding?.tvLocation?.text = city?.nameEn
+                        viewModel.getPrayerTimeData(city?.file?: "")
                     }
                 }
 
@@ -78,6 +80,19 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                 }
             }
         }
+        viewModel.prayerTimeResult.observe(this){
+            when(it){
+                is NetworkResult.Success -> {
+                    showBannerData(it.result as CurrentPrayerDetail)
+                }
+                is  NetworkResult.Error -> {
+
+                }
+                is NetworkResult.Loading ->{
+
+                }
+            }
+        }
 
         /* viewModel.noInternetConnection.observe(this){
              val data = it as Boolean
@@ -85,6 +100,17 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                  viewModel.messageStatus(false)
                  showToast(getString(R.string.network_error_message_internet))
              }*/
+    }
+
+
+    private fun showBannerData(prayer: CurrentPrayerDetail){
+        mBinding?.apply {
+            tvPrayerName.text = prayer.name
+            tvNamazTime.text = prayer.time.substring(0, prayer.time.length - 3).trim()
+            tvTime.text = prayer.time.substring(prayer.time.length - 2).uppercase(Locale.ROOT)
+            tvNextPrayerTitle.text = "Next Pray: ${prayer.nextPrayer}"
+            tvNextPrayerTime.text = prayer.nextPrayerTime
+        }
     }
 }
 
