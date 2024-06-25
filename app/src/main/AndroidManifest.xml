@@ -16,7 +16,7 @@
         android:theme="@style/Theme.RomanPrayerApplication"
         tools:targetApi="31">
         <activity
-            android:name=".home.presentation.activity.PrayerTimeActivity"
+            android:name=".prayer.presentation.activities.PrayerTimeActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity

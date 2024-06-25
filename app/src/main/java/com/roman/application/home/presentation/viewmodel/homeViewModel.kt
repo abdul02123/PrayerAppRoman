@@ -74,7 +74,7 @@ class homeViewModel @Inject constructor(
                         time = currentPrayer.first.second,
                         nextPrayer = currentPrayer.second.first,
                         nextPrayerTime = currentPrayer.second.second,
-                        prayersTime = currentPrayerTimes
+                        prayersTime = currentPrayerTimesList
                     )
                     prayerTimeResult.value = NetworkResult.Success(result = prayerData)
                 }

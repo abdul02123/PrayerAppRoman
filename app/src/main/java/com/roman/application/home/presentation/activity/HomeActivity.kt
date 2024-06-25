@@ -10,6 +10,7 @@ import com.roman.application.home.domain.model.response.prayer.CurrentPrayerDeta
 import com.roman.application.home.presentation.dialogues.BottomSheetDialogue
 import com.roman.application.home.presentation.dialogues.LocationDialogue
 import com.roman.application.home.presentation.viewmodel.homeViewModel
+import com.roman.application.prayer.presentation.activities.PrayerTimeActivity
 import com.roman.application.util.SelectionType
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
@@ -22,6 +23,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     private val viewModel: homeViewModel by viewModels()
     private var dialogueLocation: LocationDialogue? = null
+    private var prayerTimes: ArrayList<String>?= null
 
     override fun setUpViewBinding(layoutInflater: LayoutInflater): ActivityHomeBinding {
         return ActivityHomeBinding.inflate(layoutInflater)
@@ -30,7 +32,8 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
     override fun init() {
 
         mBinding?.imgEdit?.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, PrayerTimeActivity::class.java))
+            startActivity(Intent(this@HomeActivity, PrayerTimeActivity::class.java)
+                .putExtra("prayerTimes",  prayerTimes))
         }
         bindObserver()
         viewModel.getCitiesData()
@@ -44,9 +47,10 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                     SelectionType.CITY.indentifier -> {
                         showCitiesDialogue(citiesList)
                     }
+
                     SelectionType.DONE.indentifier -> {
                         mBinding?.tvLocation?.text = city?.nameEn
-                        viewModel.getPrayerTimeData(city?.file?: "")
+                        viewModel.getPrayerTimeData(city?.file ?: "")
                     }
                 }
 
@@ -80,15 +84,17 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                 }
             }
         }
-        viewModel.prayerTimeResult.observe(this){
-            when(it){
+        viewModel.prayerTimeResult.observe(this) {
+            when (it) {
                 is NetworkResult.Success -> {
                     showBannerData(it.result as CurrentPrayerDetail)
                 }
-                is  NetworkResult.Error -> {
+
+                is NetworkResult.Error -> {
 
                 }
-                is NetworkResult.Loading ->{
+
+                is NetworkResult.Loading -> {
 
                 }
             }
@@ -103,7 +109,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
     }
 
 
-    private fun showBannerData(prayer: CurrentPrayerDetail){
+    private fun showBannerData(prayer: CurrentPrayerDetail) {
         mBinding?.apply {
             tvPrayerName.text = prayer.name
             tvNamazTime.text = prayer.time.substring(0, prayer.time.length - 3).trim()
@@ -111,14 +117,17 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
             tvNextPrayerTitle.text = "Next Pray: ${prayer.nextPrayer}"
             tvNextPrayerTime.text = prayer.nextPrayerTime
         }
+        prayerTimes = prayer.prayersTime.toCollection(ArrayList())
     }
+
+
+    /*private fun setAdapter(photoArray: List<String>?) {
+        if (photoArray?.isNotEmpty() == true) {
+            val groupByAlbum = photoArray.groupBy { it.albumId }
+            val sectionAdapter = SectionAdapter(groupByAlbum)
+            mBinding?.recyclerView?.adapter = sectionAdapter
+        }
+    }*/
 }
 
-/*private fun setAdapter(photoArray: ArrayList<PhotoResponse>?) {
-    if (photoArray?.isNotEmpty() == true) {
-        val groupByAlbum = photoArray.groupBy { it.albumId }
-        val sectionAdapter = SectionAdapter(groupByAlbum)
-        mBinding?.recyclerView?.adapter = sectionAdapter
-    }
 
-}*/

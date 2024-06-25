@@ -1,15 +1,9 @@
-package com.roman.application.home.presentation.activity
+package com.roman.application.prayer.presentation.activities
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.roman.application.R
 import com.roman.application.base.BaseCompatVBActivity
-import com.roman.application.databinding.ActivityHomeBinding
 import com.roman.application.databinding.ActivityPrayerTimeBinding
+import com.roman.application.prayer.presentation.adapter.PrayerTimeAdapter
 
 class PrayerTimeActivity : BaseCompatVBActivity<ActivityPrayerTimeBinding>() {
 
@@ -21,5 +15,15 @@ class PrayerTimeActivity : BaseCompatVBActivity<ActivityPrayerTimeBinding>() {
         mBinding?.appCompatImageView2?.setOnClickListener {
             finish()
         }
+
+        if (intent.getSerializableExtra("prayerTimes")!=null){
+            val data = intent.getSerializableExtra("prayerTimes") as List<String>
+            setAdapter(data)
+        }
+    }
+
+    private fun setAdapter(string: List<String>){
+      val adapter = PrayerTimeAdapter(string)
+      mBinding?.recyclerView?.adapter = adapter
     }
 }

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.presentation.activity.PrayerTimeActivity">
+    tools:context=".prayer.presentation.activities.PrayerTimeActivity">
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -98,7 +98,6 @@
                     android:id="@+id/tvPrayer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
                     android:fontFamily="@font/lato_bold_heavy"
@@ -148,7 +147,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="24dp"
                     android:layout_marginBottom="12dp"
                     android:fontFamily="@font/lato_bold_heavy"
                     android:gravity="center"
@@ -169,6 +167,7 @@
                 android:background="#42A8C3"
                 tools:listitem="@layout/item_prayer_time"
                 tools:itemCount="5"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
