@@ -116,8 +116,12 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
             tvTime.text = prayer.time.substring(prayer.time.length - 2).uppercase(Locale.ROOT)
             tvNextPrayerTitle.text = "Next Pray: ${prayer.nextPrayer}"
             tvNextPrayerTime.text = prayer.nextPrayerTime
+
         }
         prayerTimes = prayer.prayersTime.toCollection(ArrayList())
+        if (!prayerTimes.isNullOrEmpty()){
+            prayerTimes!!.removeAt(1)
+        }
     }
 
 
