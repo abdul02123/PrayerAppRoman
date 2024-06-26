@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.roman.application.databinding.ItemPrayerTimeBinding
+import com.roman.application.home.domain.model.response.prayer.Prayers
+import com.roman.application.util.formatDate
 
-class PrayerTimeAdapter(private val data: List<String>) :
+class PrayerTimeAdapter(private val data: ArrayList<Prayers>) :
     RecyclerView.Adapter<PrayerTimeAdapter.MySectionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MySectionViewHolder {
@@ -24,27 +26,18 @@ class PrayerTimeAdapter(private val data: List<String>) :
     inner class MySectionViewHolder(private val binding: ItemPrayerTimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(prayer: String, position: Int) {
+        fun bind(prayer: Prayers, position: Int) {
+            val dateFormat = prayer.namazTime.formatDate("EE MMM dd HH:mm:ss 'GMT'Z yyyy", "HH:mm")
+            binding.tvPrayer.text = prayer.namazName
+            binding.tvPrayerTime.text = dateFormat
+            binding.tvIqama.text = dateFormat
 
-            when(position){
-                0 ->{
-                    binding.tvPrayer.text = "Fajir"
-                }
-                1 ->{
-                    binding.tvPrayer.text = "Dhuhar"
-                }
-                2 ->{
-                    binding.tvPrayer.text = "Ars"
-                }
-                3 ->{
-                    binding.tvPrayer.text = "Magrib"
-                }
-                4 ->{
-                    binding.tvPrayer.text = "Isha"
-                }
+            binding.switchHeros1.setOnCheckedChangeListener { buttonView, isChecked ->
+                prayer.isAlarmOn = isChecked
             }
-            binding.tvPrayerTime.text =  prayer.substring(0, prayer.length - 3).trim()
-            binding.tvIqama.text =  prayer.substring(0, prayer.length - 3).trim()
+
+//            binding.tvPrayerTime.text =  prayer.substring(0, prayer.length - 3).trim()
+//            binding.tvIqama.text =  prayer.substring(0, prayer.length - 3).trim()
 
         }
     }

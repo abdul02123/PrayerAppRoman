@@ -7,6 +7,7 @@ import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityHomeBinding
 import com.roman.application.home.domain.model.response.city.City
 import com.roman.application.home.domain.model.response.prayer.CurrentPrayerDetail
+import com.roman.application.home.domain.model.response.prayer.Prayers
 import com.roman.application.home.presentation.dialogues.BottomSheetDialogue
 import com.roman.application.home.presentation.dialogues.LocationDialogue
 import com.roman.application.home.presentation.viewmodel.homeViewModel
@@ -23,7 +24,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     private val viewModel: homeViewModel by viewModels()
     private var dialogueLocation: LocationDialogue? = null
-    private var prayerTimes: ArrayList<String>?= null
+    private var prayerTimes: ArrayList<Prayers>?= null
 
     override fun setUpViewBinding(layoutInflater: LayoutInflater): ActivityHomeBinding {
         return ActivityHomeBinding.inflate(layoutInflater)
@@ -118,10 +119,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
             tvNextPrayerTime.text = prayer.nextPrayerTime
 
         }
-        prayerTimes = prayer.prayersTime.toCollection(ArrayList())
-        if (!prayerTimes.isNullOrEmpty()){
-            prayerTimes!!.removeAt(1)
-        }
+        prayerTimes = prayer.prayersTime
     }
 
 

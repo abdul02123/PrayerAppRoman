@@ -9,5 +9,5 @@ data class CurrentPrayerDetail(
     val time: String,
     val nextPrayer: String,
     val nextPrayerTime: String,
-    val prayersTime: List<String>
+    val prayersTime: ArrayList<Prayers>
 ): Parcelable

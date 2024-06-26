@@ -46,13 +46,10 @@ inline fun <reified T> String.toResponseModel(): T {
     return Gson().fromJson(this, typeToken)
 }
 
-fun List<String>.toPrayersModel(date:String): PrayersTime {
-    val timeFormat = SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault())
-    val fajr = timeFormat.parse("$date ${this[0]}")
-    val shuruq = timeFormat.parse("$date ${this[1]}")
-    val duhur = timeFormat.parse("$date ${this[2]}")
-    val asr = timeFormat.parse("$date ${this[3]}")
-    val maghrib = timeFormat.parse("$date ${this[4]}")
-    val isha = timeFormat.parse("$date ${this[5]}")
-    return PrayersTime(fajr!!, shuruq!!, duhur!!, asr!!, maghrib!!, isha!!)
-}
+  fun String.formatDate(inputFormat: String, outputFormat: String): String{
+      val input = SimpleDateFormat(inputFormat, Locale.getDefault())
+      val output = SimpleDateFormat(outputFormat, Locale.getDefault())
+      val dateFormat = input.parse(this)
+      val outputResult = output.format(dateFormat)
+      return outputResult
+  }
