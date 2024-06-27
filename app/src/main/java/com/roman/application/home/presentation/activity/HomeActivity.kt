@@ -16,6 +16,10 @@ import com.roman.application.util.SelectionType
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
+import com.roman.application.util.storage.MySharePreference.getCity
+import com.roman.application.util.storage.MySharePreference.getSavedData
+import com.roman.application.util.storage.MySharePreference.saveData
+import com.roman.application.util.storage.MySharePreference.setCity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -24,7 +28,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     private val viewModel: homeViewModel by viewModels()
     private var dialogueLocation: LocationDialogue? = null
-    private var prayerTimes: ArrayList<Prayers>?= null
+    private var prayerTimes: ArrayList<Prayers>? = null
 
     override fun setUpViewBinding(layoutInflater: LayoutInflater): ActivityHomeBinding {
         return ActivityHomeBinding.inflate(layoutInflater)
@@ -33,11 +37,17 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
     override fun init() {
 
         mBinding?.imgEdit?.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, PrayerTimeActivity::class.java)
-                .putExtra("prayerTimes",  prayerTimes))
+            startActivity(
+                Intent(this@HomeActivity, PrayerTimeActivity::class.java)
+                    .putExtra("prayerTimes", prayerTimes)
+            )
         }
         bindObserver()
-        viewModel.getCitiesData()
+        if (getCity().isNullOrEmpty()) {
+            viewModel.getCitiesData()
+        } else {
+            viewModel.getPrayerTimeData(getCity() ?: "")
+        }
     }
 
 
@@ -51,6 +61,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
                     SelectionType.DONE.indentifier -> {
                         mBinding?.tvLocation?.text = city?.nameEn
+                        setCity(city?.file ?: "")
                         viewModel.getPrayerTimeData(city?.file ?: "")
                     }
                 }
@@ -120,6 +131,20 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
         }
         prayerTimes = prayer.prayersTime
+
+        val savedPrayersStatus = getSavedData()
+
+        for (time in prayerTimes?: ArrayList()){
+            for (savedTime in savedPrayersStatus){
+                if (time.namazName == savedTime.namazName){
+                    time.isAlarmOn = savedTime.isAlarmOn
+                }
+            }
+        }
+
+        saveData(prayerTimes?: ArrayList())
+
+
     }
 
 

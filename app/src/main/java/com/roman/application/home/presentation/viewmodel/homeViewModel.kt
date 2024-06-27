@@ -15,6 +15,8 @@ import com.roman.application.util.network.NetworkException
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.network.exceptionHandler
 import com.roman.application.util.network.launchApi
+import com.roman.application.util.storage.MySharePreference.getSavedData
+import com.roman.application.util.storage.MySharePreference.saveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -52,48 +54,77 @@ class homeViewModel @Inject constructor(
 
 
     fun getPrayerTimeData(city: String) {
-        if (application.isInternetAvailable()) {
-            result.value = NetworkResult.Loading()
-            val exceptionHandler = viewModelScope.exceptionHandler {
-                if (it is NetworkException)
-                    prayerTimeResult.value = NetworkResult.Error(errorResponse = it.errorResponse)
-            }
-
-            viewModelScope.launchApi(exceptionHandler) {
-                val response = prayerTimeUseCase.runPrayerTimes(city)
-                prayerTimesMap.clear()
-                prayerTimesMap.putAll(response.prayerTimes)
-                val currentDateTime = Date()
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val date: String = dateFormat.format(currentDateTime)
-                val currentPrayerTimesList: List<String> = response.prayerTimes[date] ?: emptyList()
-                if (currentPrayerTimesList.isNotEmpty()) {
-                    val currentPrayerTimes = currentPrayerTimesList.toPrayersModel(date)
-                    val currentPrayer = currentPrayerTimes.getCurrentPrayer()
-                    val prayersTime =  ArrayList<Prayers>()
-                    prayersTime.add(Prayers("Fajir", currentPrayerTimesList.toPrayersModel(date).fajr.toString()))
-                    prayersTime.add(Prayers("Dhuhar", currentPrayerTimesList.toPrayersModel(date).duhur.toString()))
-                    prayersTime.add(Prayers("Asr", currentPrayerTimesList.toPrayersModel(date).asr.toString()))
-                    prayersTime.add(Prayers("Magrib", currentPrayerTimesList.toPrayersModel(date).maghrib.toString()))
-                    prayersTime.add(Prayers("Isha", currentPrayerTimesList.toPrayersModel(date).isha.toString()))
-                    val prayerData = CurrentPrayerDetail(
-                        name = currentPrayer.first.first,
-                        time = currentPrayer.first.second,
-                        nextPrayer = currentPrayer.second.first,
-                        nextPrayerTime = currentPrayer.second.second,
-                        prayersTime = prayersTime
-                    )
-                    prayerTimeResult.value = NetworkResult.Success(result = prayerData)
+            if (application.isInternetAvailable()) {
+                result.value = NetworkResult.Loading()
+                val exceptionHandler = viewModelScope.exceptionHandler {
+                    if (it is NetworkException)
+                        prayerTimeResult.value =
+                            NetworkResult.Error(errorResponse = it.errorResponse)
                 }
+
+                viewModelScope.launchApi(exceptionHandler) {
+                    val response = prayerTimeUseCase.runPrayerTimes(city)
+                    prayerTimesMap.clear()
+                    prayerTimesMap.putAll(response.prayerTimes)
+                    val currentDateTime = Date()
+                    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    val date: String = dateFormat.format(currentDateTime)
+                    val currentPrayerTimesList: List<String> =
+                        response.prayerTimes[date] ?: emptyList()
+                    if (currentPrayerTimesList.isNotEmpty()) {
+                        val currentPrayerTimes = currentPrayerTimesList.toPrayersModel(date)
+                        val currentPrayer = currentPrayerTimes.getCurrentPrayer()
+                        val prayersTime = ArrayList<Prayers>()
+                        prayersTime.add(
+                            Prayers(
+                                "Fajir",
+                                currentPrayerTimesList.toPrayersModel(date).fajr.toString()
+                            )
+                        )
+                        prayersTime.add(
+                            Prayers(
+                                "Dhuhar",
+                                currentPrayerTimesList.toPrayersModel(date).duhur.toString()
+                            )
+                        )
+                        prayersTime.add(
+                            Prayers(
+                                "Asr",
+                                currentPrayerTimesList.toPrayersModel(date).asr.toString()
+                            )
+                        )
+                        prayersTime.add(
+                            Prayers(
+                                "Magrib",
+                                currentPrayerTimesList.toPrayersModel(date).maghrib.toString()
+                            )
+                        )
+                        prayersTime.add(
+                            Prayers(
+                                "Isha",
+                                currentPrayerTimesList.toPrayersModel(date).isha.toString()
+                            )
+                        )
+                        val prayerData = CurrentPrayerDetail(
+                            name = currentPrayer.first.first,
+                            time = currentPrayer.first.second,
+                            nextPrayer = currentPrayer.second.first,
+                            nextPrayerTime = currentPrayer.second.second,
+                            prayersTime = prayersTime
+                        )
+                        if (getSavedData().isEmpty()){
+                            saveData(prayersTime)
+                        }
+                        prayerTimeResult.value = NetworkResult.Success(result = prayerData)
+                    }
+                }
+            } else {
+                noInternetConnection.value = true
             }
-        } else {
-            noInternetConnection.value = true
-        }
     }
 
 
-
-    fun messageStatus(status: Boolean){
+    fun messageStatus(status: Boolean) {
         noInternetConnection.value = status
     }
 }

@@ -7,7 +7,7 @@ import com.roman.application.databinding.ItemPrayerTimeBinding
 import com.roman.application.home.domain.model.response.prayer.Prayers
 import com.roman.application.util.formatDate
 
-class PrayerTimeAdapter(private val data: ArrayList<Prayers>) :
+class PrayerTimeAdapter(private val data: ArrayList<Prayers>, private val onClick: (prayer: Prayers) -> Unit) :
     RecyclerView.Adapter<PrayerTimeAdapter.MySectionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MySectionViewHolder {
@@ -31,9 +31,12 @@ class PrayerTimeAdapter(private val data: ArrayList<Prayers>) :
             binding.tvPrayer.text = prayer.namazName
             binding.tvPrayerTime.text = dateFormat
             binding.tvIqama.text = dateFormat
+            binding.switchHeros1.isChecked = prayer.isAlarmOn
 
             binding.switchHeros1.setOnCheckedChangeListener { buttonView, isChecked ->
                 prayer.isAlarmOn = isChecked
+                onClick.invoke(prayer)
+
             }
 
 //            binding.tvPrayerTime.text =  prayer.substring(0, prayer.length - 3).trim()
