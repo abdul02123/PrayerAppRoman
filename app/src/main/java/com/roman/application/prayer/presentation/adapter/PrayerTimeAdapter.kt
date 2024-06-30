@@ -33,7 +33,7 @@ class PrayerTimeAdapter(private val data: ArrayList<Prayers>, private val onClic
             binding.tvPrayerTime.text = dateFormat
             binding.tvIqama.text = dateFormat
             binding.switchHeros1.isChecked = prayer.isAlarmOn
-            
+
             binding.switchHeros1.setOnCheckedChangeListener { buttonView, isChecked ->
                 prayer.isAlarmOn = isChecked
                 onClick.invoke(prayer)

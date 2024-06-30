@@ -1,4 +1,4 @@
-package com.roman.application.di
+package com.roman.application.home.di
 
 import com.roman.application.home.data.remote.HomeApi
 import com.roman.application.network.DecryptionInterceptor

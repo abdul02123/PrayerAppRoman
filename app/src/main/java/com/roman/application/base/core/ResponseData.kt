@@ -1,4 +1,4 @@
-package com.roman.application.home.domain.model.response
+package com.roman.application.base.core
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

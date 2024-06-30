@@ -1,32 +1,17 @@
 package com.roman.application.prayer.presentation.activities
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.AlertDialog
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.health.connect.datatypes.units.Length
 import android.os.Build
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationManagerCompat
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityPrayerTimeBinding
 import com.roman.application.home.domain.model.response.prayer.Prayers
 import com.roman.application.prayer.presentation.adapter.PrayerTimeAdapter
 import com.roman.application.prayer.presentation.notification.NotificationAlarmScheduler.cancelNotification
 import com.roman.application.prayer.presentation.notification.NotificationAlarmScheduler.scheduleNotification
-import com.roman.application.prayer.presentation.notification.NotificationReceiver
 import com.roman.application.util.storage.MySharePreference.getSavedData
 import com.roman.application.util.storage.MySharePreference.saveData
-import java.util.Calendar
-import java.util.Date
 
 class PrayerTimeActivity : BaseCompatVBActivity<ActivityPrayerTimeBinding>() {
 
