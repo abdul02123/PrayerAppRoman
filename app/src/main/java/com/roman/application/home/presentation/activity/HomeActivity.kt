@@ -46,6 +46,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
         if (getCity().isNullOrEmpty()) {
             viewModel.getCitiesData()
         } else {
+            mBinding?.tvLocation?.text = getCity()
             viewModel.getPrayerTimeData(getCity() ?: "")
         }
     }

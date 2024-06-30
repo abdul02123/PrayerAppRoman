@@ -9,7 +9,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.roman.application.home.domain.model.response.prayer.PrayersTime
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 
 fun Context.showToast(message: String?){
@@ -48,8 +50,28 @@ inline fun <reified T> String.toResponseModel(): T {
 
   fun String.formatDate(inputFormat: String, outputFormat: String): String{
       val input = SimpleDateFormat(inputFormat, Locale.getDefault())
+      input.timeZone = TimeZone.getTimeZone("GMT")
       val output = SimpleDateFormat(outputFormat, Locale.getDefault())
       val dateFormat = input.parse(this)
       val outputResult = output.format(dateFormat)
       return outputResult
   }
+
+
+fun String.toMillisecondsFromDate(inputFormat: String): Long{
+    val inputFormat = SimpleDateFormat(inputFormat, Locale.getDefault())
+    inputFormat.timeZone = TimeZone.getTimeZone("GMT")
+    val date: Date? = inputFormat.parse(this)
+    val outputFormat = SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault())
+    outputFormat.timeZone = TimeZone.getDefault()
+    return date?.time ?: 0L
+}
+
+
+fun String.toPrayerDate(): Date {
+    return try {
+        SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault()).parse(this) ?: Date()
+    } catch (e: Exception) {
+        Date()
+    }
+}
