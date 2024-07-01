@@ -36,6 +36,7 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
     private fun setAdapter(list: ArrayList<Athkar?>?){
         val adapter = AkhtarAdapter(list)
         mBinding?.recyclerView?.adapter = adapter
+        mBinding?.recyclerView?.let { mBinding?.indicatorView?.setupWithViewPager(it) }
     }
 
 
@@ -44,7 +45,7 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
 //            mBinding?.progressBar?.makeGone()
             when (it) {
                 is NetworkResult.Success -> {
-                    val data = it as AkhtarResponse
+                    val data = it.result as AkhtarResponse
                     setAdapter(data.athkars)
                 }
 

@@ -34,7 +34,7 @@ class AkhtarViewModel @Inject constructor(
 
             viewModelScope.launchApi(exceptionHandler) {
                 val response = akhtarUseCase.runAkhtarList()
-//                result.value = NetworkResult.Success(result = response)
+                result.value = NetworkResult.Success(result = response)
             }
         } else {
             noInternetConnection.value = true
