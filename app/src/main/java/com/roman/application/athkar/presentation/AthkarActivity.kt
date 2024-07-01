@@ -1,9 +1,14 @@
 package com.roman.application.athkar.presentation
 
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.roman.application.R
 import com.roman.application.athkar.AkhtarAdapter
 import com.roman.application.athkar.domain.model.AkhtarResponse
 import com.roman.application.athkar.domain.model.Athkar
@@ -20,24 +25,18 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
 
     private val viewModel: AkhtarViewModel by viewModels()
     private var athkars: ArrayList<Athkar?>? = null
+    private var position: Int = 0
+    private val player: ExoPlayer by lazy {
+        ExoPlayer.Builder(applicationContext).build()
+    }
 
     override fun setUpViewBinding(layoutInflater: LayoutInflater): ActivityAthkarBinding {
         return ActivityAthkarBinding.inflate(layoutInflater)
     }
 
     override fun init() {
-
+        addListener()
         bindObserver()
-        mBinding?.appCompatImageView2?.setOnClickListener {
-            finish()
-        }
-        mBinding?.tvBack?.setOnClickListener {
-            mBinding?.recyclerView?.currentItem = mBinding?.recyclerView?.currentItem!! - 1
-        }
-        mBinding?.tvNext?.setOnClickListener {
-            mBinding?.recyclerView?.currentItem = mBinding?.recyclerView?.currentItem!! + 1
-        }
-
         viewModel.getAkhtarData()
     }
 
@@ -72,6 +71,18 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
     }
 
     private fun addListener() {
+
+        mBinding?.appCompatImageView2?.setOnClickListener {
+            finish()
+        }
+        mBinding?.tvBack?.setOnClickListener {
+            mBinding?.recyclerView?.currentItem = mBinding?.recyclerView?.currentItem!! - 1
+        }
+        mBinding?.tvNext?.setOnClickListener {
+            mBinding?.recyclerView?.currentItem = mBinding?.recyclerView?.currentItem!! + 1
+        }
+
+
         mBinding?.recyclerView?.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageScrolled(
                 position: Int,
@@ -83,12 +94,42 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-
+                this@AthkarActivity.position = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
+                stopMedia()
             }
         })
+        mBinding?.imgMedia?.setOnClickListener {
+            if (player.isPlaying){
+                mBinding?.imgMedia?.setImageResource(R.drawable.ic_play)
+                player.pause()
+            }else{
+                mBinding?.imgMedia?.setImageResource(R.drawable.ic_pause)
+                playMedia()
+            }
+        }
+    }
+
+    private fun playMedia(){
+        if (!athkars.isNullOrEmpty()){
+             val mediaItem = MediaItem.fromUri(Uri.parse(athkars?.get(position)?.link))
+             player.setMediaItem(mediaItem)
+             player.prepare()
+             player.play()
+        }
+
+    }
+
+    private fun stopMedia(){
+        mBinding?.imgMedia?.setImageResource(R.drawable.ic_play)
+        player.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
     }
 }

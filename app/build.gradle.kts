@@ -73,7 +73,13 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.49")
 
+    // viewpager2 indicator
     implementation ("com.github.zhpanvip:viewpagerindicator:1.2.3")
+
+    // exoplayer
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
 
 
 }
