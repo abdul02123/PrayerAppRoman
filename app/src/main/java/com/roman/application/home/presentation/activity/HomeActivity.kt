@@ -3,7 +3,7 @@ package com.roman.application.home.presentation.activity
 import android.content.Intent
 import android.view.LayoutInflater
 import androidx.activity.viewModels
-import com.roman.application.athkar.presentation.AthkarActivity
+import com.roman.application.athkar.presentation.activity.AthkarActivity
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityHomeBinding
 import com.roman.application.home.domain.model.response.city.City

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/athkar_bg"
-    tools:context=".athkar.presentation.AthkarActivity">
+    tools:context=".athkar.presentation.activity.AthkarActivity">
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -31,7 +31,6 @@
         app:layout_constraintEnd_toStartOf="@+id/imgExport"
         app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgExport"
@@ -66,7 +65,6 @@
 
 
     </androidx.cardview.widget.CardView>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -136,7 +134,6 @@
                         android:padding="8dp"
                         android:textColor="#42A8C3"
                         android:textSize="16sp" />
-
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgMedia"

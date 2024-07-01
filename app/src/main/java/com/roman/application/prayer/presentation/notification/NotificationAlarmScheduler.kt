@@ -29,9 +29,10 @@ object NotificationAlarmScheduler {
             val intent = Intent(BaseApplication.getInstance(), NotificationReceiver::class.java).apply {
                 putExtra("prayer_name", item.namazName)
             }
-            alarmManager.setExactAndAllowWhileIdle(
+            alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 timeInMillis,
+                AlarmManager.INTERVAL_DAY,
                 PendingIntent.getBroadcast(
                     BaseApplication.getInstance(),
                     item.hashCode(),
@@ -39,6 +40,7 @@ object NotificationAlarmScheduler {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
+
         } catch (e: Exception) {
             Log.e("AndroidAlarmScheduler", "schedule: ${e.message}")
         }

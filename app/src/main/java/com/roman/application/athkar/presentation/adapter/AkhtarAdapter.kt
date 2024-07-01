@@ -1,11 +1,10 @@
-package com.roman.application.athkar
+package com.roman.application.athkar.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.roman.application.athkar.domain.model.Athkar
 import com.roman.application.databinding.ItemAkhtarBinding
-import com.roman.application.home.domain.model.response.city.City
 
 class AkhtarAdapter (
     private val items: ArrayList<Athkar?>?

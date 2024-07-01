@@ -1,4 +1,4 @@
-package com.roman.application.athkar.presentation
+package com.roman.application.athkar.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.roman.application.athkar.domain.model.AkhtarResponse
 import com.roman.application.athkar.domain.usecase.GetAkhtarUseCase
-import com.roman.application.home.domain.model.response.city.Cities
 import com.roman.application.util.isInternetAvailable
 import com.roman.application.util.network.NetworkException
 import com.roman.application.util.network.NetworkResult
