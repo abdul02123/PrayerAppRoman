@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.roman.application.R
@@ -51,6 +52,7 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
         val adapter = AkhtarAdapter(list)
         mBinding?.recyclerView?.adapter = adapter
         mBinding?.recyclerView?.let { mBinding?.indicatorView?.setupWithViewPager(it) }
+        prepareMedia()
     }
 
 
@@ -98,16 +100,10 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 this@AthkarActivity.position = position
+                stopMedia()
+                prepareMedia()
             }
 
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                stopMedia()
-            }
         })
         mBinding?.imgMedia?.setOnClickListener {
             if (player.isPlaying){
@@ -118,16 +114,31 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
                 playMedia()
             }
         }
+
+        player.addListener(object : Player.Listener{
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                if (isPlaying){
+                    mBinding?.imgMedia?.setImageResource(R.drawable.ic_pause)
+                }else{
+                    mBinding?.imgMedia?.setImageResource(R.drawable.ic_play)
+                }
+            }
+        })
     }
 
     private fun playMedia(){
         if (!athkars.isNullOrEmpty()){
-             val mediaItem = MediaItem.fromUri(Uri.parse(athkars?.get(position)?.link))
-             player.setMediaItem(mediaItem)
-             player.prepare()
-             player.play()
+             player.playWhenReady = true
         }
 
+    }
+
+    private fun prepareMedia(){
+        val mediaItem = MediaItem.fromUri(Uri.parse(athkars?.get(position)?.link))
+        player.setMediaItem(mediaItem)
+        player.prepare()
+        player.playWhenReady = false
     }
 
     private fun stopMedia(){
@@ -141,6 +152,7 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
                 SelectionType.IMAGE.indentifier ->{
                     startActivity( Intent(this@AthkarActivity, ExportActivity::class.java)
                        .putExtra("export", athkars?.get(position)?.text)
+                       .putExtra("link", athkars?.get(position)?.link)
                        .putExtra("isVideo", false))
 
                   /*  CoroutineScope(Dispatchers.IO).launch {
@@ -158,6 +170,7 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
                 SelectionType.VIDEO.indentifier ->{
                     startActivity( Intent(this@AthkarActivity, ExportActivity::class.java)
                         .putExtra("export", athkars?.get(position)?.text)
+                        .putExtra("link", athkars?.get(position)?.link)
                         .putExtra("isVideo", true))
                 }
             }
