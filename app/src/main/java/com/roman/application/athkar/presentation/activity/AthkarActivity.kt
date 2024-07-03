@@ -44,6 +44,7 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
     override fun init() {
         addListener()
         bindObserver()
+        showProgressDialogue()
         viewModel.getAkhtarData()
     }
 
@@ -58,21 +59,21 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
 
     private fun bindObserver() {
         viewModel.result.observe(this) {
-//            mBinding?.progressBar?.makeGone()
             when (it) {
                 is NetworkResult.Success -> {
                     val data = it.result as AkhtarResponse
                     athkars = data.athkars
                     setAdapter(data.athkars)
+                    hideProgressDialogue()
                 }
 
                 is NetworkResult.Error -> {
                     val error = it.errorResponse as ErrorResponse
                     showToast(error.message)
+                    hideProgressDialogue()
                 }
 
                 is NetworkResult.Loading -> {
-//                mBinding?.progressBar?.makeVisible()
                 }
             }
         }

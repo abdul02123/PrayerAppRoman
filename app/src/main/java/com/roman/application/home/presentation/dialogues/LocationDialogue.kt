@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import com.roman.application.base.BaseApplication
 import com.roman.application.databinding.LocationDialogueLayoutBinding
 import com.roman.application.home.domain.model.response.city.City
 import com.roman.application.util.SelectionType
+import com.roman.application.util.showToast
 
 class LocationDialogue : DialogFragment() {
 
@@ -34,8 +36,12 @@ class LocationDialogue : DialogFragment() {
 //        binding.imgView.setImageResource(image?:0)
 
         binding.tvDone.setOnClickListener {
-            onClick?.invoke(SelectionType.DONE.indentifier, city)
-            dismiss()
+            if (city!= null){
+                onClick?.invoke(SelectionType.DONE.indentifier, city)
+                dismiss()
+            }else{
+                BaseApplication.getInstance().showToast("Please select your location")
+            }
         }
 
         binding.tvSelectCity.setOnClickListener {

@@ -82,6 +82,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
         bindObserver()
         if (getCity().isNullOrEmpty()) {
+            showProgressDialogue()
             viewModel.getCitiesData()
         } else {
             prayerTimeData()
@@ -89,8 +90,8 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
     }
 
     private fun prayerTimeData(){
-        val city: String = getCity()?: ""
-        mBinding?.tvLocation?.text = city
+        mBinding?.tvLocation?.text = getCity()
+        showProgressDialogue()
         viewModel.getPrayerTimeData(getCity() ?: "")
     }
 
@@ -109,6 +110,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                     SelectionType.DONE.indentifier -> {
                         mBinding?.tvLocation?.text = city?.nameEn
                         setCity(city?.file ?: "")
+                        showProgressDialogue()
                         viewModel.getPrayerTimeData(city?.file ?: "")
                     }
                 }
@@ -127,20 +129,20 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     private fun bindObserver() {
         viewModel.result.observe(this) {
-//            mBinding?.progressBar?.makeGone()
             when (it) {
                 is NetworkResult.Success -> {
                     cities = it.result?.cities
                     showLocationDialogue(it.result?.cities ?: ArrayList())
+                    hideProgressDialogue()
                 }
 
                 is NetworkResult.Error -> {
                     val error = it.errorResponse as ErrorResponse
                     showToast(error.message)
+                    hideProgressDialogue()
                 }
 
                 is NetworkResult.Loading -> {
-//                mBinding?.progressBar?.makeVisible()
                 }
             }
         }
@@ -148,9 +150,12 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
             when (it) {
                 is NetworkResult.Success -> {
                     showBannerData(it.result as CurrentPrayerDetail, true)
+                    prayerTimes(it.result)
+                    hideProgressDialogue()
                 }
 
                 is NetworkResult.Error -> {
+                    hideProgressDialogue()
 
                 }
 
@@ -202,8 +207,12 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
             }
 
         }
-        prayerTimes = prayer.prayersTime
 
+
+    }
+
+    private fun prayerTimes(prayer: CurrentPrayerDetail){
+        prayerTimes = prayer.prayersTime
         val savedPrayersStatus = getSavedData()
 
         for (time in prayerTimes?: ArrayList()){
@@ -213,18 +222,13 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                 }
             }
         }
-
         saveData(prayerTimes?: ArrayList())
-
-
     }
 
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions.values.contains(true)) {
                 locationManager?.checkLocationEnable()
-            } else {
-//                navigateToHomeActivity()
             }
         }
 
@@ -238,13 +242,12 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
             if (!addresses.isNullOrEmpty()){
                 val city = addresses[0].locality
-
                 setCity(cities?.find { it.file.equals(city, true) }?.file?: "amman")
+                dialogueLocation?.dismiss()
                 prayerTimeData()
                 locationManager?.removeLocationListener()
             }
         })
-//        locationManager?.setProgressListener { showProgress() }
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
