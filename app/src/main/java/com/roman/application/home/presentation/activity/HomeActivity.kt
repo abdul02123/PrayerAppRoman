@@ -3,9 +3,11 @@ package com.roman.application.home.presentation.activity
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
+import android.os.Build
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import com.roman.application.R
 import com.roman.application.athkar.presentation.activity.AthkarActivity
 import com.roman.application.base.BaseCompatVBActivity
@@ -21,6 +23,7 @@ import com.roman.application.prayer.presentation.activities.PrayerTimeActivity
 import com.roman.application.util.enums.PrayerName
 import com.roman.application.util.manager.PermissionManager.Companion.requiredLocationPermissions
 import com.roman.application.util.enums.SelectionType
+import com.roman.application.util.manager.PermissionManager.Companion.requiredPermissionsNotification
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
@@ -45,6 +48,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
         return ActivityHomeBinding.inflate(layoutInflater)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun init() {
 
         mBinding?.apply {
@@ -236,6 +240,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                 showToast(resources.getString(R.string.permission_message))
             }
         }
+
 
     private fun initLocation() {
         locationManager = LocationManager()

@@ -2,8 +2,11 @@ package com.roman.application.athkar.presentation.activity
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.view.LayoutInflater
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
@@ -18,6 +21,7 @@ import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityAthkarBinding
 import com.roman.application.util.enums.SelectionType
 import com.roman.application.util.makeVisible
+import com.roman.application.util.manager.PermissionManager.Companion.requiredPermissionsNotification
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
@@ -38,7 +42,11 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
         return ActivityAthkarBinding.inflate(layoutInflater)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun init() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            notificationResultLauncher.launch(requiredPermissionsNotification)
+        }
         addListener()
         bindObserver()
         showProgressDialogue()
@@ -178,7 +186,14 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
         }).show(supportFragmentManager, null)
     }
 
+    private val notificationResultLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (permissions.values.contains(true)) {
 
+            }else{
+                showToast(resources.getString(R.string.permission_notification_message))
+            }
+        }
 
     override fun onDestroy() {
         super.onDestroy()
