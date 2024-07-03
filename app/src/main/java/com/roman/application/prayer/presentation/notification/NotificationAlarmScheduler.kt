@@ -7,6 +7,7 @@ import android.content.Intent
 import android.util.Log
 import com.roman.application.base.BaseApplication
 import com.roman.application.home.domain.model.response.prayer.Prayers
+import com.roman.application.util.enums.DateFormat
 import com.roman.application.util.toMillisecondsFromDate
 import java.util.Calendar
 
@@ -16,7 +17,7 @@ object NotificationAlarmScheduler {
 
     @SuppressLint("ScheduleExactAlarm")
     fun scheduleNotification(item: Prayers) {
-        var timeInMillis = item.namazTime.toMillisecondsFromDate("EE MMM dd HH:mm:ss 'GMT'Z yyyy")
+        var timeInMillis = item.namazTime.toMillisecondsFromDate(DateFormat.COMPLETE_FORMAT.identifierName)
         val currentTimeInMillis = System.currentTimeMillis()
         if (timeInMillis < currentTimeInMillis) {
             val calendar = Calendar.getInstance().apply {

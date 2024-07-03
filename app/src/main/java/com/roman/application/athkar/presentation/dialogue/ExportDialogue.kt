@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.roman.application.databinding.ExportLayoutBinding
-import com.roman.application.util.SelectionType
+import com.roman.application.util.enums.SelectionType
 
 class ExportDialogue: DialogFragment() {
 

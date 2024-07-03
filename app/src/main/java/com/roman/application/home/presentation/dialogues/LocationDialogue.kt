@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.roman.application.base.BaseApplication
 import com.roman.application.databinding.LocationDialogueLayoutBinding
 import com.roman.application.home.domain.model.response.city.City
-import com.roman.application.util.SelectionType
+import com.roman.application.util.enums.SelectionType
 import com.roman.application.util.showToast
 
 class LocationDialogue : DialogFragment() {

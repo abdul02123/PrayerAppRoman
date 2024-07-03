@@ -3,7 +3,6 @@ package com.roman.application.athkar.presentation.activity
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import androidx.activity.viewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -17,14 +16,11 @@ import com.roman.application.athkar.presentation.dialogue.ExportDialogue
 import com.roman.application.athkar.presentation.viewmodel.AkhtarViewModel
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityAthkarBinding
-import com.roman.application.util.SelectionType
+import com.roman.application.util.enums.SelectionType
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.roman.application.base
+package com.roman.application.base.location
 
 import android.annotation.SuppressLint
 import android.app.Activity

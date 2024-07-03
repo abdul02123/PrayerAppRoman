@@ -1,5 +1,6 @@
 package com.roman.application.home.domain.model.response.prayer
 
+import com.roman.application.util.enums.DateFormat
 import kotlinx.parcelize.IgnoredOnParcel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,7 +16,7 @@ data class PrayersTime(
 ) {
 
     @IgnoredOnParcel
-    private val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+    private val timeFormat = SimpleDateFormat(DateFormat.HH_MM_A.identifierName, Locale.getDefault())
 
     fun getCurrentPrayer(): Pair<Pair<String, String>, Pair<String, String>> {
         val currentTime = Date()

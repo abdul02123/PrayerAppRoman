@@ -1,4 +1,4 @@
-package com.roman.application.util
+package com.roman.application.util.enums
 
 enum class SelectionType(val indentifier: Int, val indentifierName: String) {
     CITY(1, "city"),

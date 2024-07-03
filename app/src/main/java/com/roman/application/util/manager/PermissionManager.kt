@@ -1,4 +1,4 @@
-package com.roman.application.util
+package com.roman.application.util.manager
 
 import android.Manifest
 import android.app.Activity

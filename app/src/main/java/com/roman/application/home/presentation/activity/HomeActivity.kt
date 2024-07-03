@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import com.roman.application.R
 import com.roman.application.athkar.presentation.activity.AthkarActivity
 import com.roman.application.base.BaseCompatVBActivity
-import com.roman.application.base.LocationManager
+import com.roman.application.base.location.LocationManager
 import com.roman.application.databinding.ActivityHomeBinding
 import com.roman.application.home.domain.model.response.city.City
 import com.roman.application.home.domain.model.response.prayer.CurrentPrayerDetail
@@ -18,8 +18,9 @@ import com.roman.application.home.presentation.dialogues.BottomSheetDialogue
 import com.roman.application.home.presentation.dialogues.LocationDialogue
 import com.roman.application.home.presentation.viewmodel.homeViewModel
 import com.roman.application.prayer.presentation.activities.PrayerTimeActivity
-import com.roman.application.util.PermissionManager.Companion.requiredLocationPermissions
-import com.roman.application.util.SelectionType
+import com.roman.application.util.enums.PrayerName
+import com.roman.application.util.manager.PermissionManager.Companion.requiredLocationPermissions
+import com.roman.application.util.enums.SelectionType
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
@@ -181,23 +182,23 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
             if (isShowCurrentSelectedPrayer){
                 mBinding?.apply {
                     when (prayer.name) {
-                        "Fajir" -> {
+                        PrayerName.FAJIR.identifierName -> {
                             frameFajir.setBackgroundResource(R.drawable.bg_round_stroke_2)
                         }
 
-                        "Dhuhar" -> {
+                        PrayerName.Dhuhar.identifierName -> {
                             frameDuhur.setBackgroundResource(R.drawable.bg_round_stroke_2)
                         }
 
-                        "Asr" -> {
+                        PrayerName.ASR.identifierName -> {
                             frameAsr.setBackgroundResource(R.drawable.bg_round_stroke_2)
                         }
 
-                        "Magrib" -> {
+                        PrayerName.MAGRIB.identifierName -> {
                             frameMagrib.setBackgroundResource(R.drawable.bg_round_stroke_2)
                         }
 
-                        "Isha" -> {
+                        PrayerName.ISHA.identifierName -> {
                             frameIsha.setBackgroundResource(R.drawable.bg_round_stroke_2)
                         }
 

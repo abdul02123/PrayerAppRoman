@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.roman.application.databinding.ItemPrayerTimeBinding
 import com.roman.application.home.domain.model.response.prayer.Prayers
+import com.roman.application.util.enums.DateFormat
 import com.roman.application.util.formatDate
 import com.roman.application.util.toMillisecondsFromDate
 
@@ -21,14 +22,14 @@ class PrayerTimeAdapter(private val data: ArrayList<Prayers>, private val onClic
     }
 
     override fun onBindViewHolder(holder: MySectionViewHolder, position: Int) {
-        holder.bind(data[position], position)
+        holder.bind(data[position])
     }
 
     inner class MySectionViewHolder(private val binding: ItemPrayerTimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(prayer: Prayers, position: Int) {
-            val dateFormat = prayer.namazTime.formatDate("EE MMM dd HH:mm:ss 'GMT'Z yyyy", "HH:mm")
+        fun bind(prayer: Prayers) {
+            val dateFormat = prayer.namazTime.formatDate(DateFormat.COMPLETE_FORMAT.identifierName, DateFormat.HH_MM.identifierName)
             binding.tvPrayer.text = prayer.namazName
             binding.tvPrayerTime.text = dateFormat
             binding.tvIqama.text = dateFormat
