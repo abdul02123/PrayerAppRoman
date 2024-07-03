@@ -1,10 +1,16 @@
 package com.roman.application.home.presentation.activity
 
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
+import android.util.Log
 import android.view.LayoutInflater
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import com.roman.application.R
 import com.roman.application.athkar.presentation.activity.AthkarActivity
 import com.roman.application.base.BaseCompatVBActivity
+import com.roman.application.base.LocationManager
 import com.roman.application.databinding.ActivityHomeBinding
 import com.roman.application.home.domain.model.response.city.City
 import com.roman.application.home.domain.model.response.prayer.CurrentPrayerDetail
@@ -13,6 +19,7 @@ import com.roman.application.home.presentation.dialogues.BottomSheetDialogue
 import com.roman.application.home.presentation.dialogues.LocationDialogue
 import com.roman.application.home.presentation.viewmodel.homeViewModel
 import com.roman.application.prayer.presentation.activities.PrayerTimeActivity
+import com.roman.application.util.PermissionManager.Companion.requiredLocationPermissions
 import com.roman.application.util.SelectionType
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
@@ -24,12 +31,15 @@ import com.roman.application.util.storage.MySharePreference.setCity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
+
 @AndroidEntryPoint
 class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     private val viewModel: homeViewModel by viewModels()
     private var dialogueLocation: LocationDialogue? = null
     private var prayerTimes: ArrayList<Prayers>? = null
+    private var cities: ArrayList<City>? = null
+    private var locationManager: LocationManager?= null
 
     override fun setUpViewBinding(layoutInflater: LayoutInflater): ActivityHomeBinding {
         return ActivityHomeBinding.inflate(layoutInflater)
@@ -37,27 +47,52 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     override fun init() {
 
-        mBinding?.imgEdit?.setOnClickListener {
-            startActivity(
-                Intent(this@HomeActivity, PrayerTimeActivity::class.java)
-                    .putExtra("prayerTimes", prayerTimes)
-            )
-        }
+        mBinding?.apply {
+            imgEdit.setOnClickListener {
+                startActivity(
+                    Intent(this@HomeActivity, PrayerTimeActivity::class.java)
+                        .putExtra("prayerTimes", prayerTimes)
+                )
+            }
 
-        mBinding?.lyAkhtar?.setOnClickListener {
-            startActivity(
-                Intent(this@HomeActivity, AthkarActivity::class.java))
+            lyAkhtar.setOnClickListener {
+                startActivity(
+                    Intent(this@HomeActivity, AthkarActivity::class.java))
+            }
+
+             lyFajir.setOnClickListener {
+                viewModel.showPrayerTimes(tvFajir.text.toString())
+            }
+
+            lyDuhur.setOnClickListener {
+                viewModel.showPrayerTimes(tvDuhur.text.toString())
+            }
+
+            lyAsr.setOnClickListener {
+                viewModel.showPrayerTimes(tvAsr.text.toString())
+            }
+            lyMaghreb.setOnClickListener {
+                viewModel.showPrayerTimes(tvMagrib.text.toString())
+            }
+
+            lyIsha.setOnClickListener {
+                viewModel.showPrayerTimes(tvIsha.text.toString())
+            }
         }
 
         bindObserver()
         if (getCity().isNullOrEmpty()) {
             viewModel.getCitiesData()
         } else {
-            mBinding?.tvLocation?.text = getCity()
-            viewModel.getPrayerTimeData(getCity() ?: "")
+            prayerTimeData()
         }
     }
 
+    private fun prayerTimeData(){
+        val city: String = getCity()?: ""
+        mBinding?.tvLocation?.text = city
+        viewModel.getPrayerTimeData(getCity() ?: "")
+    }
 
     private fun showLocationDialogue(citiesList: ArrayList<City>) {
         dialogueLocation =
@@ -65,6 +100,10 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
                 when (selectionType) {
                     SelectionType.CITY.indentifier -> {
                         showCitiesDialogue(citiesList)
+                    }
+                    SelectionType.AUTO.indentifier -> {
+                        initLocation()
+                        activityResultLauncher.launch(requiredLocationPermissions)
                     }
 
                     SelectionType.DONE.indentifier -> {
@@ -91,6 +130,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 //            mBinding?.progressBar?.makeGone()
             when (it) {
                 is NetworkResult.Success -> {
+                    cities = it.result?.cities
                     showLocationDialogue(it.result?.cities ?: ArrayList())
                 }
 
@@ -107,7 +147,7 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
         viewModel.prayerTimeResult.observe(this) {
             when (it) {
                 is NetworkResult.Success -> {
-                    showBannerData(it.result as CurrentPrayerDetail)
+                    showBannerData(it.result as CurrentPrayerDetail, true)
                 }
 
                 is NetworkResult.Error -> {
@@ -118,24 +158,48 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
                 }
             }
-        }
 
-        /* viewModel.noInternetConnection.observe(this){
-             val data = it as Boolean
-             if (data){
-                 viewModel.messageStatus(false)
-                 showToast(getString(R.string.network_error_message_internet))
-             }*/
+            viewModel.prayerTimeDetail.observe(this){
+                val data = it as CurrentPrayerDetail
+                showBannerData(data)
+            }
+        }
     }
 
 
-    private fun showBannerData(prayer: CurrentPrayerDetail) {
+    private fun showBannerData(prayer: CurrentPrayerDetail, isShowCurrentSelectedPrayer: Boolean = false) {
         mBinding?.apply {
             tvPrayerName.text = prayer.name
-            tvNamazTime.text = prayer.time.substring(0, prayer.time.length - 3).trim()
-            tvTime.text = prayer.time.substring(prayer.time.length - 2).uppercase(Locale.ROOT)
+            tvNamazTime.text = prayer.time?.substring(0, prayer.time.length - 3)?.trim()
+            tvTime.text = prayer.time?.substring(prayer.time.length - 2)?.uppercase(Locale.ROOT)
             tvNextPrayerTitle.text = "Next Pray: ${prayer.nextPrayer}"
             tvNextPrayerTime.text = prayer.nextPrayerTime
+            if (isShowCurrentSelectedPrayer){
+                mBinding?.apply {
+                    when (prayer.name) {
+                        "Fajir" -> {
+                            frameFajir.setBackgroundResource(R.drawable.bg_round_stroke_2)
+                        }
+
+                        "Dhuhar" -> {
+                            frameDuhur.setBackgroundResource(R.drawable.bg_round_stroke_2)
+                        }
+
+                        "Asr" -> {
+                            frameAsr.setBackgroundResource(R.drawable.bg_round_stroke_2)
+                        }
+
+                        "Magrib" -> {
+                            frameMagrib.setBackgroundResource(R.drawable.bg_round_stroke_2)
+                        }
+
+                        "Isha" -> {
+                            frameIsha.setBackgroundResource(R.drawable.bg_round_stroke_2)
+                        }
+
+                    }
+                }
+            }
 
         }
         prayerTimes = prayer.prayersTime
@@ -155,14 +219,38 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     }
 
-
-    /*private fun setAdapter(photoArray: List<String>?) {
-        if (photoArray?.isNotEmpty() == true) {
-            val groupByAlbum = photoArray.groupBy { it.albumId }
-            val sectionAdapter = SectionAdapter(groupByAlbum)
-            mBinding?.recyclerView?.adapter = sectionAdapter
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (permissions.values.contains(true)) {
+                locationManager?.checkLocationEnable()
+            } else {
+//                navigateToHomeActivity()
+            }
         }
-    }*/
+
+    private fun initLocation() {
+        locationManager = LocationManager()
+        locationManager?.setActivity(this)
+        locationManager?.setLocationListener(listener = { locationResult ->
+
+            val geocoder = Geocoder(this, Locale.getDefault())
+            val addresses: List<Address>? = geocoder.getFromLocation(locationResult.lastLocation?.latitude?:0.0, locationResult.lastLocation?.longitude?:0.0, 1)
+
+            if (!addresses.isNullOrEmpty()){
+                val city = addresses[0].locality
+
+                setCity(cities?.find { it.file.equals(city, true) }?.file?: "amman")
+                prayerTimeData()
+                locationManager?.removeLocationListener()
+            }
+        })
+//        locationManager?.setProgressListener { showProgress() }
+
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        locationManager?.onActivityResult(requestCode, resultCode, data)
+    }
 }
 
 

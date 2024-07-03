@@ -83,6 +83,8 @@ dependencies {
 
     //Ffmpeg Android
     implementation(libs.ffmpeg.android)
+    // location
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 
 
 }

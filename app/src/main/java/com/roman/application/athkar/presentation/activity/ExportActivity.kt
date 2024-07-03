@@ -43,18 +43,18 @@ class ExportActivity : BaseCompatVBActivity<ActivityExportBinding>() {
         }
 
         val mediaItem = MediaItem.fromUri(Uri.parse(link))
-        player?.setMediaItem(mediaItem)
-        player?.prepare()
+        player.setMediaItem(mediaItem)
+        player.prepare()
 
         mBinding?.lyMedia?.setOnClickListener {
-            if (player?.isPlaying == false) {
+            if (player.isPlaying == false) {
                 playMedia()
             } else {
                 pauseMedia()
             }
         }
 
-        player?.addListener(object : Player.Listener {
+        player.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
                 if (isPlaying) {
@@ -68,12 +68,12 @@ class ExportActivity : BaseCompatVBActivity<ActivityExportBinding>() {
 
 
     private fun playMedia() {
-        player?.playWhenReady = true
+        player.playWhenReady = true
         showPlayView()
     }
 
     private fun pauseMedia() {
-        player?.pause()
+        player.pause()
         showPauseView()
 
     }
@@ -86,5 +86,10 @@ class ExportActivity : BaseCompatVBActivity<ActivityExportBinding>() {
     private fun showPauseView() {
         mBinding?.imgMedia?.setImageResource(R.drawable.ic_play)
         mBinding?.tvPreview?.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
     }
 }

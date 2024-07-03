@@ -42,6 +42,10 @@ class LocationDialogue : DialogFragment() {
             onClick?.invoke(SelectionType.CITY.indentifier, city)
         }
 
+        binding.lyAuto.setOnClickListener {
+            onClick?.invoke(SelectionType.AUTO.indentifier, city)
+        }
+
         dialog?.window?.let {
             it.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,

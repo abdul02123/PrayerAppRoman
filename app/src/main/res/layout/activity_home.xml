@@ -226,6 +226,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <FrameLayout
+                            android:id="@+id/frameFajir"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/round_corner_8dp"
@@ -245,6 +246,7 @@
 
 
                         <TextView
+                            android:id="@+id/tvFajir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -311,6 +313,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <FrameLayout
+                            android:id="@+id/frameDuhur"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/round_corner_8dp"
@@ -330,12 +333,13 @@
 
 
                         <TextView
+                            android:id="@+id/tvDuhur"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/lato_regular"
-                            android:text="Duhur"
+                            android:text="Dhuhar"
                             android:textColor="#515151"
                             android:textSize="12sp" />
 
@@ -361,7 +365,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lyFirst">
 
                     <LinearLayout
-                        android:id="@+id/lyAsir"
+                        android:id="@+id/lyAsr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="45dp"
@@ -373,6 +377,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <FrameLayout
+                            android:id="@+id/frameAsr"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/round_corner_8dp"
@@ -392,12 +397,13 @@
 
 
                         <TextView
+                            android:id="@+id/tvAsr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/lato_regular"
-                            android:text="Asir"
+                            android:text="Asr"
                             android:textColor="#515151"
                             android:textSize="12sp" />
 
@@ -416,6 +422,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <FrameLayout
+                            android:id="@+id/frameMagrib"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/round_corner_8dp"
@@ -435,12 +442,13 @@
 
 
                         <TextView
+                            android:id="@+id/tvMagrib"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/lato_regular"
-                            android:text="Maghreb"
+                            android:text="Magrib"
                             android:textColor="#515151"
                             android:textSize="12sp" />
 
@@ -458,6 +466,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <FrameLayout
+                            android:id="@+id/frameIsha"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/round_corner_8dp"
@@ -477,6 +486,7 @@
 
 
                         <TextView
+                            android:id="@+id/tvIsha"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

@@ -5,5 +5,6 @@ enum class SelectionType(val indentifier: Int, val indentifierName: String) {
     DONE(2, "done"),
     IMAGE(3, "image"),
     VIDEO(4, "video"),
+    AUTO(5, "video")
 
 }

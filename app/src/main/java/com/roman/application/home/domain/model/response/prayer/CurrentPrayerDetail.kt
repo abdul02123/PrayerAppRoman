@@ -5,9 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CurrentPrayerDetail(
-    val name: String,
-    val time: String,
-    val nextPrayer: String,
-    val nextPrayerTime: String,
-    val prayersTime: ArrayList<Prayers>
+    val name: String?= null,
+    val time: String?= null,
+    val nextPrayer: String?= null,
+    val nextPrayerTime: String?= null,
+    val prayersTime: ArrayList<Prayers>?= null
 ): Parcelable
