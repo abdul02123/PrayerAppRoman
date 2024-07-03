@@ -3,7 +3,6 @@ package com.roman.application.home.presentation.activity
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels

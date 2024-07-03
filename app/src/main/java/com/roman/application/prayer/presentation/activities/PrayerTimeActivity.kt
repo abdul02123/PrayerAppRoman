@@ -35,7 +35,7 @@ class PrayerTimeActivity : BaseCompatVBActivity<ActivityPrayerTimeBinding>() {
         mBinding?.tvSave?.setOnClickListener{
             saveData(prayerTime?: ArrayList())
             saveNotification()
-            Toast.makeText(applicationContext, "saved",Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Saved",Toast.LENGTH_SHORT).show()
             finish()
 
 
