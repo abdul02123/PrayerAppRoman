@@ -68,31 +68,4 @@ class PrayerTimeActivity : BaseCompatVBActivity<ActivityPrayerTimeBinding>() {
             }
         }
     }
-
-   /* fun createNotificationChannel(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "MyChannel"
-            val descriptionText = "Channel for My App"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("my_channel_id", name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    @SuppressLint("ScheduleExactAlarm")
-    fun scheduleNotification(context: Context, timeInMillis: Long) {
-        val intent = Intent(context, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
-    }*/
 }

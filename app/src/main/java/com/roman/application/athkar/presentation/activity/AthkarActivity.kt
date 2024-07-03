@@ -17,6 +17,7 @@ import com.roman.application.athkar.presentation.viewmodel.AkhtarViewModel
 import com.roman.application.base.BaseCompatVBActivity
 import com.roman.application.databinding.ActivityAthkarBinding
 import com.roman.application.util.enums.SelectionType
+import com.roman.application.util.makeVisible
 import com.roman.application.util.network.ErrorResponse
 import com.roman.application.util.network.NetworkResult
 import com.roman.application.util.showToast
@@ -60,6 +61,8 @@ class AthkarActivity : BaseCompatVBActivity<ActivityAthkarBinding>() {
                     val data = it.result as AkhtarResponse
                     athkars = data.athkars
                     setAdapter(data.athkars)
+                    mBinding?.lyPlayerButtons?.makeVisible()
+                    mBinding?.imgExport?.makeVisible()
                     hideProgressDialogue()
                 }
 
