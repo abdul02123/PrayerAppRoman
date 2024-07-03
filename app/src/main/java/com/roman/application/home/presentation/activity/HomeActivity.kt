@@ -81,8 +81,12 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
         }
 
         bindObserver()
+        showCites()
+    }
+
+    private fun showCites(){
+        showProgressDialogue()
         if (getCity().isNullOrEmpty()) {
-            showProgressDialogue()
             viewModel.getCitiesData()
         } else {
             prayerTimeData()
@@ -91,7 +95,6 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
 
     private fun prayerTimeData(){
         mBinding?.tvLocation?.text = getCity()
-        showProgressDialogue()
         viewModel.getPrayerTimeData(getCity() ?: "")
     }
 
@@ -229,21 +232,26 @@ class HomeActivity : BaseCompatVBActivity<ActivityHomeBinding>() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions.values.contains(true)) {
                 locationManager?.checkLocationEnable()
+            }else{
+                showToast(resources.getString(R.string.permission_message))
             }
         }
 
     private fun initLocation() {
         locationManager = LocationManager()
         locationManager?.setActivity(this)
+        locationManager?.setProgressListener{
+           showProgressDialogue()
+        }
         locationManager?.setLocationListener(listener = { locationResult ->
-
+            dialogueLocation?.dismiss()
             val geocoder = Geocoder(this, Locale.getDefault())
             val addresses: List<Address>? = geocoder.getFromLocation(locationResult.lastLocation?.latitude?:0.0, locationResult.lastLocation?.longitude?:0.0, 1)
 
             if (!addresses.isNullOrEmpty()){
                 val city = addresses[0].locality
                 setCity(cities?.find { it.file.equals(city, true) }?.file?: "amman")
-                dialogueLocation?.dismiss()
+
                 prayerTimeData()
                 locationManager?.removeLocationListener()
             }

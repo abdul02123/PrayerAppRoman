@@ -8,4 +8,5 @@
     <string name="network_error_message_403">Authentication error</string>
     <string name="network_message_internet_connection">Check your internet connection and try again later.</string>
     <string name="network_error_message_internet">Your Internet connection appears to be offline. Please try again.</string>
+    <string name="permission_message">Please allow location permissions from settings</string>
 </resources>
